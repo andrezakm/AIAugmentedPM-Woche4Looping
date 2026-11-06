@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Lead Bridge — Sales Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            padding: 30px 0 20px;
+            border-bottom: 1px solid rgba(100, 200, 255, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #00d9ff;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(100, 200, 255, 0.1);
+        }
+        
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            color: #00d9ff;
+            border-bottom-color: #00d9ff;
+        }
+        
+        .tab-btn:hover {
+            color: #00d9ff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .leads-table {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .leads-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .leads-table thead {
+            background: rgba(0, 217, 255, 0.1);
+        }
+        
+        .leads-table th {
+            padding: 15px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #00d9ff;
+            border-bottom: 1px solid rgba(100, 200, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .leads-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(100, 200, 255, 0.1);
+        }
+        
+        .leads-table tbody tr:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+        
+        .lead-name {
+            font-weight: 500;
+            color: #e0e0e0;
+        }
+        
+        .lead-title {
+            font-size: 13px;
+            color: #aaa;
+            margin-top: 2px;
+        }
+        
+        .company-name {
+            color: #00d9ff;
+            font-weight: 500;
+        }
+        
+        .email-cell {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .confidence-score {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .score-bar {
+            width: 60px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00d9ff);
+            border-radius: 3px;
+        }
+        
+        .score-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #00d9ff;
+            min-width: 40px;
+        }
+        
+        .confidence-low .score-fill {
+            background: #ff6b6b;
+        }
+        
+        .confidence-low .score-text {
+            color: #ff6b6b;
+        }
+        
+        .confidence-medium .score-fill {
+            background: #ffd93d;
+        }
+        
+        .confidence-medium .score-text {
+            color: #ffd93d;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-verified {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+        
+        .status-flagged {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+        
+        .status-review {
+            background: rgba(255, 217, 61, 0.2);
+            color: #ffd93d;
+        }
+        
+        .action-button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #00d9ff, #0099cc);
+            border: none;
+            color: #000;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 217, 255, 0.4);
+        }
+        
+        .detail-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(100, 200, 255, 0.1);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .detail-value {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+        
+        .insight-box {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 217, 255, 0.1));
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .insight-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #00d9ff;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .insight-text {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.4;
+        }
+        
+        .health-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .health-good {
+            background: #00ff88;
+        }
+        
+        .health-warning {
+            background: #ffd93d;
+        }
+        
+        .health-bad {
+            background: #ff6b6b;
+        }
+        
+        .call-to-action {
+            background: linear-gradient(135deg, #00d9ff, #0099cc);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .cta-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 15px;
+        }
+        
+        .cta-subtext {
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
+        }
+        
+        .cta-button {
+            padding: 12px 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(0, 0, 0, 0.4);
+            color: #000;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Live Lead Bridge</h1>
+            <p class="subtitle">AI-Powered Lead Validation & Research Platform</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('sarah')">For Sales Reps</button>
+            <button class="tab-btn" onclick="switchTab('mike')">For Lead Gen</button>
+            <button class="tab-btn" onclick="switchTab('david')">For Ops</button>
+        </div>
+        
+        <!-- SARAH'S TAB: Ready-to-Call Leads -->
+        <div id="sarah" class="tab-content active">
+            <div class="dashboard-header">
+                <h2 style="color: #00d9ff; font-size: 20px;">Your Ready-to-Call Leads</h2>
+                <button style="padding: 8px 16px; background: #00d9ff; color: #000; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">↻ Refresh</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value">47</div>
+                    <div class="stat-label">Verified Leads Ready</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">92%</div>
+                    <div class="stat-label">Avg Confidence Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">38</div>
+                    <div class="stat-label">Calls Today (Goal: 50)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2h 14m</div>
+                    <div class="stat-label">Time Saved Today</div>
+                </div>
+            </div>
+            
+            <div class="insight-box">
+                <div class="insight-title">✓ This Morning's Auto-Update</div>
+                <div class="insight-text">
+                    Agent verified 47 leads from your queue. 3 were outdated (moved companies/left). 2 flagged for manual review (ambiguous data). All current emails validated.
+                </div>
+            </div>
+            
+            <div class="leads-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name & Title</th>
+                            <th>Company</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Confidence</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="lead-name">Sarah Chen</div>
+                                <div class="lead-title">VP Sales</div>
+                            </td>
+                            <td><span class="company-name">TechCorp Inc.</span></td>
+                            <td class="email-cell">s.chen@techcorp.com</td>
+                            <td class="email-cell">+1 (415) 555-0142</td>
+                            <td><span class="status-badge status-verified">✓ Verified</span></td>
+                            <td>
+                                <div class="confidence-score">
+                                    <div class="score-bar"><div class="score-fill" style="width: 98%;"></div></div>
+                                    <span class="score-text">98%</span>
+                                </div>
+                            </td>
+                            <td><button class="action-button">☎ Call</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="lead-name">Marcus Williams</div>
+                                <div class="lead-title">Director of Marketing</div>
+                            </td>
+                            <td><span class="company-name">CloudScale Labs</span></td>
+                            <td class="email-cell">m.williams@cloudscale.io</td>
+                            <td class="email-cell">+1 (415) 555-0156</td>
+                            <td><span class="status-badge status-verified">✓ Verified</span></td>
+                            <td>
+                                <div class="confidence-score">
+                                    <div class="score-bar"><div class="score-fill" style="width: 94%;"></div></div>
+                                    <span class="score-text">94%</span>
+                                </div>
+                            </td>
+                            <td><button class="action-button">☎ Call</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="lead-name">Jennifer Park</div>
+                                <div class="lead-title">Head of Product</div>
+                            </td>
+                            <td><span class="company-name">NextGen AI Corp</span></td>
+                            <td class="email-cell">j.park@nextgen-ai.com</td>
+                            <td class="email-cell">+1 (415) 555-0189</td>
+                            <td><span class="status-badge status-verified">✓ Verified</span></td>
+                            <td>
+                                <div class="confidence-score">
+                                    <div class="score-bar"><div class="score-fill" style="width: 91%;"></div></div>
+                                    <span class="score-text">91%</span>
+                                </div>
+                            </td>
+                            <td><button class="action-button">☎ Call</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="lead-name">David Okonkwo</div>
+                                <div class="lead-title">Operations Manager</div>
+                            </td>
+                            <td><span class="company-name">DataWorks Solutions</span></td>
+                            <td class="email-cell">d.okonkwo@dataworks.ai</td>
+                            <td class="email-cell">+1 (415) 555-0203</td>
+                            <td><span class="status-badge status-review">⟳ Review</span></td>
+                            <td>
+                                <div class="confidence-score confidence-medium">
+                                    <div class="score-bar"><div class="score-fill" style="width: 72%;"></div></div>
+                                    <span class="score-text">72%</span>
+                                </div>
+                            </td>
+                            <td><button class="action-button">? Review</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="lead-name">Lisa Zhang</div>
+                                <div class="lead-title">Chief Revenue Officer</div>
+                            </td>
+                            <td><span class="company-name">FinTech Ventures</span></td>
+                            <td class="email-cell">l.zhang@fintech-v.com</td>
+                            <td class="email-cell">+1 (415) 555-0217</td>
+                            <td><span class="status-badge status-verified">✓ Verified</span></td>
+                            <td>
+                                <div class="confidence-score">
+                                    <div class="score-bar"><div class="score-fill" style="width: 96%;"></div></div>
+                                    <span class="score-text">96%</span>
+                                </div>
+                            </td>
+                            <td><button class="action-button">☎ Call</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="call-to-action">
+                <div class="cta-text">You're no longer a data detective. You're a salesperson.</div>
+                <div class="cta-subtext">Every lead is verified, every email is live, every number is current. All the prep work happened overnight. Just dial.</div>
+            </div>
+        </div>
+        
+        <!-- MIKE'S TAB: Research-Ready for Lead Gen -->
+        <div id="mike" class="tab-content">
+            <div class="dashboard-header">
+                <h2 style="color: #00d9ff; font-size: 20px;">Research-Ready Prospects (Lead Gen)</h2>
+                <button style="padding: 8px 16px; background: #00d9ff; color: #000; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">+ New Batch</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value">156</div>
+                    <div class="stat-label">Prospects Researched Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4.2 min</div>
+                    <div class="stat-label">Avg Time per Prospect</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">310</div>
+                    <div class="stat-label">Outreach Emails Sent</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">+280%</div>
+                    <div class="stat-label">Volume vs Last Week</div>
+                </div>
+            </div>
+            
+            <div class="insight-box">
+                <div class="insight-title">💡 Research Intel Ready</div>
+                <div class="insight-text">
+                    Agent has pre-researched 156 prospects. Job change alerts, company news, LinkedIn activity signals all included. Suggested icebreakers are AI-generated. Just personalize & send.
+                </div>
+            </div>
+            
+            <div class="leads-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Current Role</th>
+                            <th>Company</th>
+                            <th>Latest Intel</th>
+                            <th>Suggested Opening</th>
+                            <th>Send Now</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="lead-name">Rachel Thompson</div>
+                            </td>
+                            <td>VP Operations</td>
+                            <td><span class="company-name">AutoScale Industries</span></td>
+                            <td class="email-cell">
+                                <div style="font-size: 11px; color: #00ff88;">✓ Just promoted</div>
+                                <div style="font-size: 11px; color: #aaa;">2 days ago</div>
+                            </td>
+                            <td class="email-cell" style="font-size: 12px; color: #ddd;">
+                                "Congrats on your VP role at AutoScale. Saw your LinkedIn update..."
+                            </td>
+                            <td><button class="action-button">→ Send</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="lead-name">Kevin Mukund</div>
+                            </td>
+                            <td>Head of Platform</td>
+                            <td><span class="company-name">QuantumAI Labs</span></td>
+                            <td class="email-cell">
+                                <div style="font-size: 11px; color: #00ff88;">✓ Company funding</div>
+                                <div style="font-size: 11px; color: #aaa;">$45M Series B, 1 week ago</div>
+                            </td>
+                            <td class="email-cell" style="font-size: 12px; color: #ddd;">
+                                "Exciting news on QuantumAI's $45M funding. Scaling fast—let's talk..."
+                            </td>
+                            <td><button class="action-button">→ Send</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="lead-name">Olivia Rodriguez</div>
+                            </td>
+                            <td>Chief Analytics Officer</td>
+                            <td><span class="company-name">DataFlow Corp</span></td>
+                            <td class="email-cell">
+                                <div style="font-size: 11px; color: #ffd93d;">⟳ High activity</div>
+                                <div style="font-size: 11px; color: #aaa;">Posted today on LinkedIn</div>
+                            </td>
+                            <td class="email-cell" style="font-size: 12px; color: #ddd;">
+                                "Your post on data governance really resonated. Let me show you..."
+                            </td>
+                            <td><button class="action-button">→ Send</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="call-to-action">
+                <div class="cta-text">You're no longer a researcher. You're a prospect engine.</div>
+                <div class="cta-subtext">Every prospect comes pre-researched with personal signals and suggested openings. Your job is to dial up the volume, not dig for data.</div>
+            </div>
+        </div>
+        
+        <!-- DAVID'S TAB: System Health for Ops -->
+        <div id="david" class="tab-content">
+            <div class="dashboard-header">
+                <h2 style="color: #00d9ff; font-size: 20px;">System Health & Data Quality (Ops)</h2>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value"><span class="health-indicator health-good"></span>99.8%</div>
+                    <div class="stat-label">System Uptime (Last 30 Days)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value"><span class="health-indicator health-good"></span>94%</div>
+                    <div class="stat-label">Data Freshness (< 7 days old)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value"><span class="health-indicator health-good"></span>2.3%</div>
+                    <div class="stat-label">False Positive Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">3 AM Wake-Ups (This Month)</div>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h3 style="color: #00d9ff; margin-bottom: 15px; font-size: 14px;">API Integration Status</h3>
+                <div class="detail-row">
+                    <span class="detail-label">LinkedIn Data API</span>
+                    <span class="detail-value"><span class="health-indicator health-good"></span>Healthy — 12,400 queries/day</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Crunchbase Feed</span>
+                    <span class="detail-value"><span class="health-indicator health-good"></span>Healthy — 856 company updates</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">News Aggregation API</span>
+                    <span class="detail-value"><span class="health-indicator health-warning"></span>Operational — Rate limit 95%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Salesforce Sync</span>
+                    <span class="detail-value"><span class="health-indicator health-good"></span>Healthy — 8,432 records updated</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Email Validation Service</span>
+                    <span class="detail-value"><span class="health-indicator health-good"></span>Healthy — 4,201 emails verified</span>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h3 style="color: #00d9ff; margin-bottom: 15px; font-size: 14px;">Data Quality Metrics</h3>
+                <div class="detail-row">
+                    <span class="detail-label">% Records with Valid Email</span>
+                    <span class="detail-value">97.2%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">% Job Titles Current (< 30 days)</span>
+                    <span class="detail-value">94.8%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">% Phone Numbers Valid</span>
+                    <span class="detail-value">96.4%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Duplicate Detection Rate</span>
+                    <span class="detail-value">1.1%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Average Update Latency</span>
+                    <span class="detail-value">3.2 hours</span>
+                </div>
+            </div>
+            
+            <div class="insight-box">
+                <div class="insight-title">✓ No Manual Interventions Required</div>
+                <div class="insight-text">
+                    All APIs are running autonomously. Data flows from sources → CRM without human touch. Error rate (2.3%) is within SLA. Next scheduled maintenance: Sept 15, no downtime expected.
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h3 style="color: #00d9ff; margin-bottom: 15px; font-size: 14px;">Audit Log (Last 24 Hours)</h3>
+                <div class="detail-row">
+                    <span class="detail-label">05:32 AM — Overnight batch run</span>
+                    <span class="detail-value" style="font-size: 12px;">8,432 records processed, 0 errors</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">06:15 AM — LinkedIn sync</span>
+                    <span class="detail-value" style="font-size: 12px;">2,156 job changes detected & updated</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">09:44 AM — Email validation batch</span>
+                    <span class="detail-value" style="font-size: 12px;">4,201 emails verified, 89 bounced</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">14:22 PM — Crunchbase feed update</span>
+                    <span class="detail-value" style="font-size: 12px;">12 companies flagged for M&A activity</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">18:03 PM — Daily health check</span>
+                    <span class="detail-value" style="font-size: 12px;">All systems green, backup completed</span>
+                </div>
+            </div>
+            
+            <div class="call-to-action">
+                <div class="cta-text">Your infrastructure runs itself.</div>
+                <div class="cta-subtext">No 3 AM API failures. No manual data entry. No graveyard CRM. Just clean data flowing continuously from source to system, 24/7.</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Deactivate all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activate selected button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

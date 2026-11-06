@@ -1,0 +1,16 @@
+## Kurzfassung
+
+**Was wir bauen:** Einen KI-Agenten, der für jeden Prospect, den ein Vertriebler ansprechen will, ein kurzes Dossier liefert: Ist die Person noch in dieser Rolle? Welche höchstens drei aktuellen Anlässe gibt es (Finanzierung, Neueinstellungen, Führungswechsel, neue Rolle, Themen)? Welcher Gesprächsaufhänger folgt daraus? Zu jedem Anlass steht die Quelle dabei. Das Dossier landet am CRM-Datensatz. Der Agent ersetzt den Skill *Prospect-Researcher*. Schreiben, Senden und das Urteil im Gespräch bleiben beim Menschen.
+
+**Warum dieses Bedürfnis:** Die Synthese lässt zwei Bedürfnisse übrig: (1) den fertig aufbereiteten Grund zum Anrufen und (2) aktuelle Kontaktdaten im CRM. Wir wählen (1). Es betrifft 9 der 10 Befragten statt 5, es ist ein Umsatzhebel statt einer Kostensenkung, und es tritt nicht gegen Standardwerkzeuge an, die der Kunde schon bezahlt. Die Wahl hält in 3 von 4 durchgerechneten Gewichtungen. Sie kippt nur, wenn man Umsetzungsrisiko und Abhängigkeit doppelt gewichtet. Darum bauen wir den Kern von (2), den Rollen-Check, als festen MVP-Baustein ein (Anhang A). Der volle CRM-Abgleich wird ein eigenes Folgeangebot.
+
+**Was es dem Kunden bringt (belegt):** Heute kostet die Recherche 15 bis 40 Minuten pro Prospect. Der VP of Sales rechnet: "that's only 4 prospects an hour". Eine SDR schafft 20 statt 50 Calls am Tag. Von 100 bezahlten Marketing-Leads bekommen 5 Kontext. Das Ziel setzt der Kunde selbst: "can you find it in under two minutes?" Ob daraus Pipeline wird, misst der Pilot gegen eine Vergleichsgruppe: gebuchte Meetings und Opportunities pro SDR (Z6), nicht nur Zeit.
+
+**Was es kostet und was es NeoEmployee bringt (Aufwand nicht belegt):** Abrechenbare T&M-Arbeit: 33 bis 50 Personentage bis zum Pilot-Ergebnis (A1 + A2 + A3), 48 bis 75 bis zum Rollout (zusätzlich A5), danach Wartung mit 2 bis 4 Personentagen pro Monat (A12). Auslastung: 2 bis 3 Personen (A6), Pilot-Ergebnis nach 9 bis 10 Wochen (A1 bis A4). Bei Erfolg folgt ein eigenes Angebot an Sales Ops (CRM-Abgleich). Tagessatz und Angebotssumme: `[Platzhalter]`.
+
+**Was schiefgehen kann:** (a) Die wichtigste Datenquelle ist LinkedIn, der zulässige Zugriff ist ungeklärt. Darum steht die Rechtsprüfung in Phase 0, vor dem Go für Phase 1. Ohne LinkedIn liefert das Dossier Firmen-Anlässe (Finanzierung, Neueinstellungen, Führungswechsel), der Rollen-Check endet aber oft mit `unklar`. Phase 1 misst, wie oft. (b) Ein falscher Anlass verbrennt den Account. Die Mindest-Trefferquote (`[Platzhalter]`) legt der Kunde in Phase 0 fest. NeoEmployee prüft sie in Phase 1 von Hand an einer Stichprobe (A14). Wird sie verfehlt, gibt es keinen Pilot. (c) Das Budget liegt vielleicht bei Sales Ops; Phase 0 klärt, wer kauft. (d) Vorleistung: Laufen Phase 0 und 1 ohne Auftrag und stoppt das Projekt danach, sind bis zu 20 Personentage (A1 + A2) unbezahlt.
+
+**Was zu entscheiden ist:** (1) Go für Phase 0 (A1) samt Beauftragung der Rechtsprüfung. (2) Ob Phase 0 berechnet wird, und der Tagessatz (`[Platzhalter]`). **Empfehlung:** Phase 0 als bezahlten Klärungsauftrag anbieten und Phase 1 erst nach unterschriebenem Angebot starten; dann gibt es keine unbezahlte Projektarbeit. (3) Go für Phase 1 (A2) erst, wenn Rechtsergebnis, Trefferquote und Budget-Inhaber aus Phase 0 vorliegen.
+
+---
+

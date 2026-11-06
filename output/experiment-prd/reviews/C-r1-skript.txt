@@ -1,0 +1,34 @@
+PRD: output/experiment-prd/C-PRD.md
+
+C1 Gerüst: ✅
+C2 Zitate: ✅  (belegt: 56 | eigene Worte (kein Zitat): 0 | NICHT BELEGT: 0)
+C3 Zahlen ohne Fundstelle: 29 (Hinweis für den Faktenprüfer)
+   Z.44: 95  | | Marketing | 5 von 100 Leads bekommen Kontext, 95 bleiben liegen, obwohl Marketing-Budget dafür ausgegeben wu
+   Z.179: 8  | | L8 | **Kein Signal gefunden.** Das Dossier sagt ausdrücklich *kein aktuelles Signal gefunden*. Es gibt dann 
+   Z.208: 7  | | R1 | ***Das wird generisch, die persönliche Note geht verloren.*** Ross: "I want speed, they want quality, a
+   Z.254: 7  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.254: 7  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.254: 4,29  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.254: 24  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.254: 7  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.254: 3,43  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.255: 53  | | **G-b Runway zuerst (S2)** | 1-2-3-1-3-1-1 (Summe 12) | 53 / 12 = **4,42** | 44 / 12 = **3,67** | B1 |
+   Z.255: 4,42  | | **G-b Runway zuerst (S2)** | 1-2-3-1-3-1-1 (Summe 12) | 53 / 12 = **4,42** | 44 / 12 = **3,67** | B1 |
+   Z.255: 44  | | **G-b Runway zuerst (S2)** | 1-2-3-1-3-1-1 (Summe 12) | 53 / 12 = **4,42** | 44 / 12 = **3,67** | B1 |
+   Z.255: 3,67  | | **G-b Runway zuerst (S2)** | 1-2-3-1-3-1-1 (Summe 12) | 53 / 12 = **4,42** | 44 / 12 = **3,67** | B1 |
+   Z.256: 11  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.256: 47  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.256: 11  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.256: 4,27  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.256: 35  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.256: 11  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.256: 3,18  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.257: 4,00  | | **G-d Risiko zuerst** | 1-1-1-2-1-1-3 (Summe 10) | 40 / 10 = **4,00** | 34 / 10 = **3,40** | B1 |
+   Z.257: 34  | | **G-d Risiko zuerst** | 1-1-1-2-1-1-3 (Summe 10) | 40 / 10 = **4,00** | 34 / 10 = **3,40** | B1 |
+   Z.257: 3,40  | | **G-d Risiko zuerst** | 1-1-1-2-1-1-3 (Summe 10) | 40 / 10 = **4,00** | 34 / 10 = **3,40** | B1 |
+   Z.258: 39  | | **G-e Sicht Sales Ops** (Verbreitung egal, Budget und Umsetzbarkeit dreifach) | 0-1-3-1-1-1-3 (Summe 10) | 3
+   Z.258: 3,90  | | **G-e Sicht Sales Ops** (Verbreitung egal, Budget und Umsetzbarkeit dreifach) | 0-1-3-1-1-1-3 (Summe 10) | 3
+   Z.258: 37  | | **G-e Sicht Sales Ops** (Verbreitung egal, Budget und Umsetzbarkeit dreifach) | 0-1-3-1-1-1-3 (Summe 10) | 3
+   Z.258: 3,70  | | **G-e Sicht Sales Ops** (Verbreitung egal, Budget und Umsetzbarkeit dreifach) | 0-1-3-1-1-1-3 (Summe 10) | 3
+   Z.262: 35  | **Kipppunkt:** B2 holt erst gleich, wenn man Verbreitung (K1) **und** den Abstand zu vorhandenen Tools (K4) ga
+   Z.262: 35  | **Kipppunkt:** B2 holt erst gleich, wenn man Verbreitung (K1) **und** den Abstand zu vorhandenen Tools (K4) ga

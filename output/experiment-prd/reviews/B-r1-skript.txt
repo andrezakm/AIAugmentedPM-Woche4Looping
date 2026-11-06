@@ -1,0 +1,9 @@
+PRD: output/experiment-prd/B-PRD.md
+
+C1 Gerüst: ✅
+C2 Zitate: ✅  (belegt: 60 | eigene Worte (kein Zitat): 0 | NICHT BELEGT: 0)
+C3 Zahlen ohne Fundstelle: 4 (Hinweis für den Faktenprüfer)
+   Z.277: 7  | | **F7 Technisches Risiko** | ◐ | Quellenzugriff (R1), Fehlerrisiko bei Signalen (R2) | ◐ | Gleiches Quellenri
+   Z.278: 8  | | **F8 Abhängigkeit** | ◐ | Braucht aktuelle Kontaktdaten, gelöst durch Rollen-Check | ● | Steht für sich, ist
+   Z.280: 7  | **Zusammenfassung:** Bedürfnis 1 liegt bei F1, F2, F3, F4 und F6 vorn. Bei F5 und F7 sind beide gleich. Bei F8
+   Z.280: 8  | **Zusammenfassung:** Bedürfnis 1 liegt bei F1, F2, F3, F4 und F6 vorn. Bei F5 und F7 sind beide gleich. Bei F8

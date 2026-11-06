@@ -1,0 +1,39 @@
+PRD: output/experiment-prd/C-PRD.md
+
+C1 Gerüst: ✅
+C2 Zitate: ✅  (belegt: 62 | eigene Worte (kein Zitat): 0 | NICHT BELEGT: 0)
+C3 Zahlen ohne Fundstelle: 34 (Hinweis für den Faktenprüfer)
+   Z.29: 8  | 4. **Budgetdeckel je Phase ja oder nein** (Antwort auf den erwarteten Einwand *T&M ohne Zahl*, O8).
+   Z.61: 95  | | Marketing | 5 von 100 Leads bekommen Kontext, 95 bleiben liegen, obwohl Marketing-Budget dafür ausgegeben wu
+   Z.211: 8  | | L8 | **Kein Signal gefunden.** Liefert L3 bis L6 kein gültiges Signal, sagt das Dossier ausdrücklich *kein a
+   Z.242: 7  | | R1 | ***Das wird generisch, die persönliche Note geht verloren.*** Ross: "I want speed, they want quality, a
+   Z.251: 8  | | R10 | ***T&M ohne Zahl kann der Kunde seinem CFO nicht vorlegen; mehr Gespräche sind kein Business Case.*** 
+   Z.252: 8  | | R11 | **Zahlungsrisiko für NeoEmployee** (bootstrapped, keine Reserven aus Fremdkapital) | Abrechnung je Pha
+   Z.267: 7  | | O7 | Spike und Phase 0 bezahlt oder auf eigenes Risiko; Teambesetzung | NeoEmployee-Geschäftsführung | vor A
+   Z.268: 8  | | O8 | Budgetdeckel je Phase ja/nein, Zahlungsbedingungen | NeoEmployee-Geschäftsführung | vor Angebot |
+   Z.294: 7  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.294: 7  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.294: 4,29  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.294: 24  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.294: 7  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.294: 3,43  | | **G-a Gleich** | 1-1-1-1-1-1-1 (Summe 7) | 30 / 7 = **4,29** | 24 / 7 = **3,43** | B1 |
+   Z.295: 53  | | **G-b Runway zuerst (S2)** | 1-2-3-1-3-1-1 (Summe 12) | 53 / 12 = **4,42** | 44 / 12 = **3,67** | B1 |
+   Z.295: 4,42  | | **G-b Runway zuerst (S2)** | 1-2-3-1-3-1-1 (Summe 12) | 53 / 12 = **4,42** | 44 / 12 = **3,67** | B1 |
+   Z.295: 44  | | **G-b Runway zuerst (S2)** | 1-2-3-1-3-1-1 (Summe 12) | 53 / 12 = **4,42** | 44 / 12 = **3,67** | B1 |
+   Z.295: 3,67  | | **G-b Runway zuerst (S2)** | 1-2-3-1-3-1-1 (Summe 12) | 53 / 12 = **4,42** | 44 / 12 = **3,67** | B1 |
+   Z.296: 11  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.296: 47  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.296: 11  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.296: 4,27  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.296: 35  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.296: 11  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.296: 3,18  | | **G-c Produkt zuerst (S3)** | 2-1-1-2-1-3-1 (Summe 11) | 47 / 11 = **4,27** | 35 / 11 = **3,18** | B1 |
+   Z.297: 4,00  | | **G-d Risiko zuerst** | 1-1-1-2-1-1-3 (Summe 10) | 40 / 10 = **4,00** | 34 / 10 = **3,40** | B1 |
+   Z.297: 34  | | **G-d Risiko zuerst** | 1-1-1-2-1-1-3 (Summe 10) | 40 / 10 = **4,00** | 34 / 10 = **3,40** | B1 |
+   Z.297: 3,40  | | **G-d Risiko zuerst** | 1-1-1-2-1-1-3 (Summe 10) | 40 / 10 = **4,00** | 34 / 10 = **3,40** | B1 |
+   Z.298: 39  | | **G-e Sicht Sales Ops** (Verbreitung egal, Budget und Umsetzbarkeit dreifach) | 0-1-3-1-1-1-3 (Summe 10) | 3
+   Z.298: 3,90  | | **G-e Sicht Sales Ops** (Verbreitung egal, Budget und Umsetzbarkeit dreifach) | 0-1-3-1-1-1-3 (Summe 10) | 3
+   Z.298: 37  | | **G-e Sicht Sales Ops** (Verbreitung egal, Budget und Umsetzbarkeit dreifach) | 0-1-3-1-1-1-3 (Summe 10) | 3
+   Z.298: 3,70  | | **G-e Sicht Sales Ops** (Verbreitung egal, Budget und Umsetzbarkeit dreifach) | 0-1-3-1-1-1-3 (Summe 10) | 3
+   Z.302: 35  | **Kipppunkt:** B2 holt erst gleich, wenn man Verbreitung (K1) **und** den Abstand zu vorhandenen Tools (K4) ga
+   Z.302: 35  | **Kipppunkt:** B2 holt erst gleich, wenn man Verbreitung (K1) **und** den Abstand zu vorhandenen Tools (K4) ga

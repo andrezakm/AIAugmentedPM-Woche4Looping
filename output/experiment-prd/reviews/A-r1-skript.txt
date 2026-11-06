@@ -1,0 +1,34 @@
+PRD: output/PRD-signal-brief-agent-2026-11-03.md
+
+C1 Gerüst: ❌
+   - fehlt: ## kurzfassung
+   - fehlt: ## warum dieses problem wahl und strategie
+   - fehlt: ## lösung
+   - fehlt: ### alternativen
+   - fehlt: ### vorher und nachher
+   - fehlt: ## ziele
+   - fehlt: ## nicht ziele
+   - fehlt: ## logik
+   - fehlt: ## plan
+   - fehlt: ## risiken und einwände
+   - fehlt: ## offene punkte
+   - fehlt: ## anhang a bewertung der bedürfnisse
+   - fehlt: ## loop protokoll
+C2 Zitate: ❌  (belegt: 78 | eigene Worte (kein Zitat): 20 | NICHT BELEGT: 3)
+     - clarity of the ROI
+     - revenue in weeks, not months
+     - prefer the quick fix
+C3 Zahlen ohne Fundstelle: 13 (Hinweis für den Faktenprüfer)
+   Z.150: 25  | **Nachher:** Um 8:00 liegt für jeden der 50 Leads ein Signal-Brief bereit. Beim ersten Lead steht dort: *Serie
+   Z.202: 60  | 5. **Nicht-funktional:** Die Tagesliste von bis zu 100 Prospects pro Rep ist bis 8:00 fertig. Ein Einzel-Brief
+   Z.281: 92  | | | **Gewichtete Punktzahl (von 100)** | | | **92** | **63** |
+   Z.281: 63  | | | **Gewichtete Punktzahl (von 100)** | | | **92** | **63** |
+   Z.287: 92  | | Basis (Gewichte oben) | 92 | 63 | 1 |
+   Z.287: 63  | | Basis (Gewichte oben) | 92 | 63 | 1 |
+   Z.288: 91  | | Alle Kriterien gleich gewichtet | 91 | 66 | 1 |
+   Z.288: 66  | | Alle Kriterien gleich gewichtet | 91 | 66 | 1 |
+   Z.289: 72  | | „Kostensicht": ROI-Klarheit doppelt (30), Time-to-Revenue und Abgrenzung halbiert (je 10) | 90 | 72 | 1 |
+   Z.290: 92  | | Sales Ops ist der Käufer (K1 für Bedürfnis 2 = 5) | 92 | 71 | 1 |
+   Z.290: 71  | | Sales Ops ist der Käufer (K1 für Bedürfnis 2 = 5) | 92 | 71 | 1 |
+   Z.291: 92  | | Günstigster Fall für Bedürfnis 2: CRM-Integration wäre trivial (K3 und K7 = 5) | 92 | 81 | 1 |
+   Z.291: 81  | | Günstigster Fall für Bedürfnis 2: CRM-Integration wäre trivial (K3 und K7 = 5) | 92 | 81 | 1 |

@@ -1,0 +1,10 @@
+# Einwände VP Sales — Runde 1 (Kurzfassung D)
+
+**K1 — Ohne geklärten LinkedIn-Zugriff gibt es kein Produkt, und ihr wollt trotzdem erst bauen.**
+Eure wichtigste Quelle ist LinkedIn, und ihr schreibt selbst, dass der zulässige Zugriff ungeklärt ist. Die rechtliche Prüfung steht bei euch als Punkt 3, parallel zu einem Go für 13 bis 20 Personentage. So herum unterschreibe ich nicht. Wenn am Ende nur Sales Navigator geht, den wir schon bezahlen, oder gar kein automatisierter Zugriff, dann fallen Rollen-Check und die Hälfte der Anlässe weg. Dann habe ich Geld für ein Dossier aus Pressemitteilungen ausgegeben. Erst die Rechts- und Zugriffsfrage klären, dann reden wir über Phase 1. Und sagt mir, was das Dossier ohne LinkedIn noch taugt.
+
+**K2 — Ein falscher Anlass im Call kostet mich mehr als 30 Minuten Recherche.**
+Wenn meine SDR einem Prospect zur Finanzierungsrunde gratuliert, die es nicht gab, oder jemanden in einer Rolle anspricht, die er vor drei Monaten verlassen hat, dann ist der Account verbrannt und das Team nutzt das Tool nie wieder. Ihr nennt das Risiko, aber in der Kurzfassung steht keine Zahl, ab der es gut genug ist. Welche Trefferquote muss der Pilot zeigen, wer prüft sie, und was passiert, wenn sie nicht erreicht wird? Eine Quelle neben jedem Anlass heißt nur, dass meine Leute wieder nachprüfen müssen. Dann sparen wir keine 30 Minuten, sondern vielleicht 10.
+
+**K3 — Ihr verkauft Zeitersparnis, ich brauche Pipeline, und den Weg dahin zeigt ihr nicht.**
+"20 statt 50 Calls" und "under two minutes" sind Aktivitätskennzahlen. Mehr Calls mit besserem Aufhänger heißen noch nicht mehr Meetings oder mehr Opportunities. Mir fehlt, woran wir nach dem Pilot messen, ob es wirkt: Antwortrate, gebuchte Meetings, Pipeline pro SDR, gegen eine Kontrollgruppe. Dazu sagt ihr selbst, dass das Budget vielleicht bei Sales Ops liegt. Das heißt: Ihr wisst noch nicht, wer kauft, und ich soll intern 33 bis 50 Personentage plus einen Tagessatz verteidigen, der noch Platzhalter ist. Mit einer Aufwandsspanne ohne Preis und ohne Pipeline-Ziel komme ich nicht durch die Budgetrunde.

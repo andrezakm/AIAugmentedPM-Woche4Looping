@@ -1,0 +1,12 @@
+PRD: output/experiment-prd/D-PRD.md
+
+C1 Gerüst: ✅
+C2 Zitate: ✅  (belegt: 60 | eigene Worte (kein Zitat): 0 | NICHT BELEGT: 0)
+C3 Zahlen ohne Fundstelle: 7 (Hinweis für den Faktenprüfer)
+   Z.42: 24  | | Jessica Chen, Account Executive (Top-Performerin) | 4 Std. abends für 10 Kontakte, also 24 Min. pro Kontakt,
+   Z.188: 7  | | **R6 Zeitfenster** | `Finanzierung`, `Neueinstellungen`, `Führungswechsel`: nicht älter als A7. `neue Rolle`
+   Z.229: 33  | | E7 | **Was kostet es, und wann zahlt es sich aus?** | Aufwand bis Pilot-Ergebnis 33 bis 50 Personentage (A1 
+   Z.307: 24  | | **G-b Runway** (S2: schneller bezahlter Abschluss) | K2, K3 | 24 | 23 | B1 knapp vorn |
+   Z.308: 25  | | **G-c Brücke** (S3: Produktkeim) | K4, K5 | 25 | 21 | B1 deutlich vorn |
+   Z.317: 25  | **Variante B1 mit Rollen-Check:** Übernimmt B1 den Rollen-Check aus B2 als MVP-Baustein, steigt K7 für B1 von 
+   Z.317: 26  | **Variante B1 mit Rollen-Check:** Übernimmt B1 den Rollen-Check aus B2 als MVP-Baustein, steigt K7 für B1 von 

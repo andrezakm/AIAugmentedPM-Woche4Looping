@@ -1,0 +1,26 @@
+PRD: output/experiment-prd/O-PRD.md
+
+C1 Gerüst: ❌
+   - fehlt: ## kurzfassung
+   - fehlt: ## warum dieses problem wahl und strategie
+   - fehlt: ## lösung
+   - fehlt: ### alternativen
+   - fehlt: ### vorher und nachher
+   - fehlt: ## ziele
+   - fehlt: ## nicht ziele
+   - fehlt: ## logik
+   - fehlt: ## plan
+   - fehlt: ## risiken und einwände
+   - fehlt: ## offene punkte
+   - fehlt: ## anhang a bewertung der bedürfnisse
+   - fehlt: ## loop protokoll
+C2 Zitate: ❌  (belegt: 22 | eigene Worte (kein Zitat): 2 | NICHT BELEGT: 4)
+     - Series B closed three weeks ago. New VP Engineering started in September. Hiring four DevOps roles. Suggested opener: scaling the team after the round
+     - useful / not useful
+     - everyone who posted about cloud migration last week
+     - No recent signal found
+C3 Zahlen ohne Fundstelle: 4 (Hinweis für den Faktenprüfer)
+   Z.27: 95  | [nur Fließtext] - **What is lost every day:** Roughly 30 calls per SDR per day against KPI (20 instead of 50), about 4 prospec
+   Z.43: 60  | **Before.** It is 8:30 on Monday. Sarah, an SDR, has a list of 60 leads and a KPI of 50 calls. She opens the f
+   Z.45: 25  | **After.** At 8:30 Sarah opens her list and every lead already carries a brief: "Series B closed three weeks a
+   Z.146: 01  | - Interviews: `input/Interview_Gen_01.md` to `input/Interview_Gen_10.md`

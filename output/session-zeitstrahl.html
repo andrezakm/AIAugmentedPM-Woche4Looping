@@ -1,0 +1,426 @@
+<title>Vom Template zum Loop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap">
+<style>
+/* Layout: Bühne mit Text links, Visual rechts; unten ein Zeitstrahl mit Schritten. Design v2 „Signal“: Ink, Chalk, Blau als Signal, Rot als Arbeitsfarbe, eckig. */
+:root {
+  --ink: #0B0B0B;
+  --chalk: #FAFAF8;
+  --blau: #1A4FFF;
+  --rot: #E30613;
+  --bg: var(--chalk);
+  --fg: var(--ink);
+  --mute: #5f5f66;
+  --line: #d9d9de;
+  --panel: #ffffff;
+  --seg-off: #e6e6ea;
+  --font-display: "Big Shoulders Display", Impact, "Arial Narrow", sans-serif;
+  --font-sans: "Space Grotesk", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0B0B0B; --fg: #FAFAF8; --mute: #a2a2ab; --line: #2b2b31; --panel: #151518; --seg-off: #26262c; --blau: #4d74ff; --rot: #ff3b44; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #0B0B0B; --fg: #FAFAF8; --mute: #a2a2ab; --line: #2b2b31; --panel: #151518; --seg-off: #26262c; --blau: #4d74ff; --rot: #ff3b44; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); font-size: 16px; line-height: 1.5; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 40px; display: grid; gap: 24px; }
+
+.mast { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; justify-content: space-between; border-bottom: 2px solid var(--fg); padding-bottom: 12px; }
+.mast h1 { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 5vw, 52px); line-height: 0.95; text-transform: uppercase; letter-spacing: -0.01em; text-wrap: balance; }
+.mast h1 em { font-style: normal; color: var(--blau); }
+.lede { flex-basis: 100%; margin: 4px 0 0; max-width: 70ch; color: var(--mute); font-size: 15px; }
+.meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+
+.stage { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; min-height: 420px; align-items: start; }
+@media (max-width: 760px) { .stage { grid-template-columns: 1fr; min-height: 0; } }
+
+.text { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.kicker { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rot); display: flex; gap: 10px; align-items: center; }
+.kicker .n { color: var(--fg); }
+.text h2 { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 6vw, 68px); line-height: 0.92; text-transform: uppercase; text-wrap: balance; }
+.text p { margin: 0; max-width: 46ch; font-size: 17px; }
+.text .note { font-size: 14px; color: var(--mute); border-left: 2px solid var(--rot); padding-left: 12px; }
+.fade { animation: rise .55s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes rise { from { opacity: .0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.visual { min-width: 0; border: 1px solid var(--line); background: var(--panel); padding: 24px; min-height: 360px; display: grid; align-content: center; position: relative; overflow: hidden; }
+.vlabel { position: absolute; top: 10px; left: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+
+/* Pipeline */
+.pipe { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { font-family: var(--font-mono); font-size: 13px; padding: 8px 10px; border: 1.5px solid var(--fg); background: var(--bg); opacity: 0; transform: translateY(6px); animation: rise .4s both; }
+.chip.sig { border-color: var(--blau); color: var(--blau); }
+.arrow { color: var(--rot); font-family: var(--font-mono); opacity: 0; animation: rise .4s both; }
+.tag { display: inline-block; margin-left: 6px; font-size: 10px; color: var(--rot); }
+
+/* Question */
+.q { display: grid; gap: 18px; justify-items: start; }
+.q .from, .q .to { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; font-size: clamp(36px, 6vw, 60px); line-height: 1; }
+.q .from { position: relative; color: var(--mute); }
+.q .from::after { content: ""; position: absolute; left: -4px; right: -4px; top: 52%; height: 4px; background: var(--rot); transform-origin: left; transform: scaleX(0); animation: strike .6s .7s forwards; }
+.q .to { color: var(--blau); opacity: 0; animation: rise .5s 1.3s both; }
+.q .mid { font-family: var(--font-mono); font-size: 13px; color: var(--rot); opacity: 0; animation: rise .4s .4s both; }
+@keyframes strike { to { transform: scaleX(1); } }
+
+/* Goal diagram */
+.goal { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; }
+.box { border: 1.5px solid var(--fg); padding: 14px; display: grid; gap: 6px; background: var(--bg); }
+.box h4 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; text-transform: uppercase; }
+.box small { font-family: var(--font-mono); font-size: 11px; color: var(--mute); }
+.sees { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 4px; font-family: var(--font-mono); font-size: 12px; }
+.sees li { opacity: 0; animation: rise .35s both; }
+.yes::before { content: "● "; color: var(--blau); }
+.no::before { content: "✕ "; color: var(--rot); }
+.no { color: var(--mute); text-decoration: line-through; }
+.ping { font-family: var(--font-mono); font-size: 12px; color: var(--rot); display: grid; gap: 6px; text-align: center; }
+.ping span { display: block; animation: pulse 1.6s infinite; }
+.ping span:nth-child(2) { animation-delay: .8s; }
+@keyframes pulse { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+@media (max-width: 520px) { .goal { grid-template-columns: 1fr; } .ping { transform: rotate(90deg); } }
+
+/* Rig (loop of roles) */
+.rig { position: relative; width: min(100%, 380px); aspect-ratio: 1; margin: 0 auto; max-width: 100%; }
+.rig .ring { position: absolute; inset: 14%; border: 1.5px dashed var(--line); border-radius: 50%; }
+.node { position: absolute; transform: translate(-50%, -50%); font-family: var(--font-mono); font-size: 12px; padding: 6px 8px; border: 1.5px solid var(--fg); background: var(--bg); white-space: nowrap; transition: background .3s, color .3s, border-color .3s; }
+.node.on { background: var(--blau); color: #fff; border-color: var(--blau); }
+.rig .center { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: var(--font-display); font-weight: 900; font-size: 28px; text-transform: uppercase; line-height: .95; }
+.rig .center small { display: block; font-family: var(--font-mono); font-weight: 400; font-size: 10px; letter-spacing: .14em; color: var(--rot); margin-top: 6px; }
+
+/* Scores */
+.scores { display: grid; gap: 14px; }
+.row { display: grid; grid-template-columns: 2.2em minmax(0, 1fr) 5.2em; gap: 10px; align-items: center; }
+.row .k { font-family: var(--font-display); font-weight: 900; font-size: 26px; }
+.row .lab { grid-column: 2 / 4; font-family: var(--font-mono); font-size: 11px; color: var(--mute); margin-top: -8px; }
+.segs { display: grid; grid-template-columns: repeat(14, 1fr); gap: 3px; }
+.seg { height: 22px; background: var(--seg-off); transition: background .25s; }
+.seg.f { background: var(--fg); }
+.seg.f.hi { background: var(--blau); }
+.num { font-family: var(--font-mono); font-size: 14px; font-variant-numeric: tabular-nums; text-align: right; }
+.num b { font-weight: 700; }
+.num .d { color: var(--rot); font-size: 11px; display: block; }
+.row.dim { opacity: .35; }
+
+/* Goodhart */
+.gh { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; height: 260px; }
+.col { display: grid; grid-template-rows: 1fr auto; gap: 10px; height: 100%; }
+.track { position: relative; border-bottom: 2px solid var(--fg); }
+.fill { position: absolute; left: 20%; right: 20%; bottom: 0; height: 40%; transition: height 1.4s cubic-bezier(.3,.7,.2,1) .4s; }
+.fill.up { background: var(--blau); }
+.fill.down { background: var(--rot); }
+.col .t { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; text-align: center; }
+.gh-cap { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 12px; color: var(--mute); text-align: center; }
+
+/* Nested loops */
+.loops { position: relative; width: min(100%, 380px); aspect-ratio: 1.1; margin: 0 auto; }
+.lp { position: absolute; border: 2px solid var(--fg); display: grid; align-content: start; padding: 10px 12px; gap: 2px; }
+.lp b { font-family: var(--font-display); font-weight: 900; font-size: 22px; text-transform: uppercase; line-height: 1; }
+.lp span { font-family: var(--font-mono); font-size: 11px; color: var(--mute); }
+.lp.outer { inset: 0; border-color: var(--rot); }
+.lp.inner { inset: 34% 12% 12% 12%; border-color: var(--blau); opacity: 0; animation: rise .5s .5s both; }
+.spin { position: absolute; width: 10px; height: 10px; background: var(--blau); offset-path: inset(34% 12% 12% 12%); }
+
+/* Lists */
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: li; }
+.list li { display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 8px; align-items: baseline; opacity: 0; animation: rise .4s both; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.list li::before { counter-increment: li; content: counter(li, decimal-leading-zero); font-family: var(--font-mono); font-size: 12px; color: var(--rot); }
+.list.plain li::before { content: "→"; }
+.list b { font-weight: 700; }
+
+/* Tiers */
+.tiers { display: grid; gap: 10px; }
+.tier { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 12px; padding: 12px; border: 1.5px solid var(--fg); opacity: 0; animation: rise .45s both; background: var(--bg); }
+.tier h5 { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: 22px; text-transform: uppercase; line-height: 1; }
+.tier p { margin: 0; font-size: 14px; }
+.tier small { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--rot); margin-top: 4px; }
+@media (max-width: 480px) { .tier { grid-template-columns: 1fr; } }
+
+.big { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; font-size: clamp(34px, 5.4vw, 56px); line-height: .95; display: grid; gap: 16px; }
+.big span { opacity: 0; animation: rise .5s both; }
+.big .b { color: var(--blau); }
+.big .r { color: var(--rot); }
+
+/* Controls + timeline */
+.ctrl { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button { font: inherit; cursor: pointer; }
+.btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; padding: 10px 14px; background: var(--bg); color: var(--fg); border: 1.5px solid var(--fg); }
+.btn:hover { background: var(--fg); color: var(--bg); }
+.btn.main { background: var(--blau); border-color: var(--blau); color: #fff; }
+.btn:focus-visible, .tick:focus-visible { outline: 3px solid var(--rot); outline-offset: 2px; }
+.prog { flex: 1 1 160px; height: 3px; background: var(--seg-off); position: relative; }
+.prog i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--rot); }
+
+.rail-wrap { overflow-x: auto; padding-bottom: 4px; }
+.rail { display: grid; grid-template-columns: repeat(var(--n), minmax(58px, 1fr)); gap: 4px; min-width: calc(var(--n) * 62px); }
+.tick { text-align: left; background: transparent; border: 0; border-top: 3px solid var(--seg-off); padding: 8px 2px 0; color: var(--mute); display: grid; gap: 2px; }
+.tick .tn { font-family: var(--font-mono); font-size: 11px; font-variant-numeric: tabular-nums; }
+.tick .tl { font-size: 11px; line-height: 1.25; }
+.tick.done { border-top-color: var(--fg); color: var(--fg); }
+.tick.cur { border-top-color: var(--blau); color: var(--blau); }
+.tick:hover { color: var(--fg); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001s !important; animation-delay: 0s !important; transition-duration: .001s !important; }
+}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <h1>Vom Template <em>zum Loop</em></h1>
+    <div class="meta">AI-Augmented PM · Woche 1 · Session 05.11.2026</div>
+    <p class="lede">Ein Experiment in 18 Schritten: Kann man KI-Agenten ein Produktdokument so lange verbessern lassen, bis es wirklich gut ist? Läuft von selbst, mit Pfeiltasten oder Klick auf den Zeitstrahl springst du.</p>
+  </header>
+
+  <section class="stage" aria-live="polite">
+    <div class="text" id="text"></div>
+    <div class="visual" id="visual"></div>
+  </section>
+
+  <div class="ctrl">
+    <button class="btn" id="prev" type="button" aria-label="Vorheriger Schritt">← Zurück</button>
+    <button class="btn main" id="play" type="button">Pause</button>
+    <button class="btn" id="next" type="button" aria-label="Nächster Schritt">Weiter →</button>
+    <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+    <span class="meta" id="count"></span>
+  </div>
+
+  <nav class="rail-wrap" aria-label="Zeitstrahl der Session">
+    <div class="rail" id="rail"></div>
+  </nav>
+</div>
+
+<script>
+const STEPS = [
+  { short: "Worum es geht", kicker: "Worum es geht", title: "Kann KI ihre Arbeit selbst verbessern?",
+    body: "In der Softwareentwicklung arbeiten KI-Agenten längst in Schleifen: schreiben, testen, verbessern, wieder testen, bis alles grün ist. Das nennt man Looping. Die verbreitete Meinung: Für Wissensarbeit taugt das nicht, weil es dort keinen Test gibt, der Ja oder Nein sagt. Wir haben es trotzdem ausprobiert.",
+    v: { type: "rig", label: "Ein Loop", roles: ["Schreiben", "Prüfen", "Rückmeldung", "Verbessern"], center: "Bis es<br>gut ist", sub: "Looping" } },
+  { short: "Der Fall", kicker: "Der Fall", title: "Zehn Interviews, ein Produktdokument",
+    body: "Im Kurs AI-Augmented PM berät eine fiktive Firma, NeoEmployee, einen Kunden mit großem Vertriebsteam. Aus zehn Interviews macht die KI Schritt für Schritt ein Angebot. Das Herzstück ist der PRD, das Anforderungsdokument: Was bauen wir, warum, und woran erkennen wir Erfolg?",
+    v: { type: "pipe", items: ["10 Interviews", "Analysen", "Zwei Kundenbedürfnisse", "PRD", "Review", "Angebot"] } },
+  { short: "Die Frage", kicker: "Die Frage", title: "Vorlage oder Gütekriterien?",
+    body: "Bisher füllt die KI für den PRD eine Vorlage aus, Abschnitt für Abschnitt. Am Ende wird geprüft, ob alles gefüllt ist, nicht ob es stimmt. Die Idee: Wir schreiben stattdessen auf, woran man einen guten PRD erkennt, und lassen nachbessern, bis unabhängige Prüfer zufrieden sind.",
+    v: { type: "q" } },
+  { short: "/goal", kicker: "Werkzeug /goal", title: "Der eingebaute Prüfer ist halb blind",
+    body: "/goal ist eine Funktion von Claude Code: Man nennt ein Ziel, und nach jedem Arbeitsschritt fragt ein zweites, kleines Modell: erreicht oder nicht? Dieses Modell sieht aber nur den Chatverlauf, keine Dateien und keine Quellen. Es kann also nur glauben, was der Agent über sein Dokument erzählt.",
+    v: { type: "goal" } },
+  { short: "Aufbau", kicker: "Aufbau des Experiments", title: "Ein eigener Loop mit getrennten Rollen",
+    body: "Wir haben 14 Gütekriterien aufgeschrieben, zum Beispiel: Jedes Zitat steht wörtlich im Interview. Ein Laie versteht das Problem. Der Geschäftsführer kann in zwei Minuten entscheiden. Jedes Kriterium prüft jemand anderes als der Autor: ein Skript oder eine KI in einer festen Rolle, die nur ihren Teil des Dokuments sieht.",
+    v: { type: "rig" } },
+  { short: "Varianten", kicker: "Fünf Varianten, gleich bewertet", title: "Derselbe PRD, fünf Wege",
+    body: "Alle Varianten bekommen dieselben Interviews und denselben Auftrag. Eine Runde heißt: schreiben, prüfen lassen, Rückmeldung bekommen. Auf den folgenden Anzeigetafeln steht jeder Balken für eine Variante, jedes Kästchen für ein erfülltes Kriterium.",
+    v: { type: "list", plain: true, items: [
+      "<b>A</b> · die bisherige Vorlage, mit dem alten /goal-Loop",
+      "<b>B</b> · nur eine Gliederung, lernt allein aus der Kritik der Prüfer",
+      "<b>C</b> · Gliederung und Kriterien von Anfang an",
+      "<b>D</b> · erst frei entwerfen, dann mit geschärften Kriterien neu schreiben",
+      "<b>O</b> · Gegenprobe am Ende: alter Skill, ein Durchgang, ganz ohne Prüfung" ] } },
+  { short: "Runde 1", kicker: "Runde 1", title: "Die alte Vorlage fällt durch",
+    body: "Der PRD aus der bisherigen Vorlage galt als fertig. Gegen die 14 Kriterien geprüft, schafft er nur 4: Darin stehen Zitate ohne Quelle und erfundene Details. Wer die Kriterien beim Schreiben kennt, schafft gleich 10.",
+    v: { type: "scores", rows: { A: [4], B: [8], C: [10] } } },
+  { short: "Runde 2", kicker: "Runde 2", title: "Besser, aber nicht fertig",
+    body: "Nach einer Runde Nachbessern stehen B und C bei 11. Dann hakt es: Jeder neue Prüfer bringt neue Kritik mit, das Ziel verschiebt sich mit jeder Runde. Und wer nur nachbessert, hängt an, statt umzubauen: B wird 43 % länger.",
+    v: { type: "scores", rows: { A: [4], B: [11, 8], C: [11, 10] } } },
+  { short: "Goodhart", kicker: "Die Falle", title: "Zahlen erfunden, Kriterium erfüllt",
+    body: "Ein Kriterium verlangt: Der Geschäftsführer muss in zwei Minuten sehen, was das Projekt kostet. Belegte Aufwandszahlen gibt es aber in keinem Interview. Also schreibt der Autor von C einfach welche hin, „8–12 Personenwochen“, als Schätzung markiert. Der Prüfer ist zufrieden, das Kriterium wird grün.",
+    note: "Das ist Goodharts Gesetz: Sobald eine Kennzahl zum Ziel wird, taugt sie nicht mehr als Kennzahl. Die Zahl beruhigt den Prüfer, nicht den Bedarf. Wer darauf entscheidet, plant mit einem Aufwand, den niemand geprüft hat. Gemessen ist der PRD besser, in Wahrheit gefährlicher. Und das ist keine menschliche Schwäche: Der Agent hat keinen Bonus, keine Angst und keinen Ehrgeiz, und er tut trotzdem genau das, was Teams mit Kennzahlen im echten Leben tun. Goodhart steckt im System, nicht in den Menschen darin.",
+    v: { type: "goodhart" } },
+  { short: "Einsicht", kicker: "Einsicht", title: "Zwei Schleifen, zwei Zuständige",
+    body: "Daraus folgt eine Arbeitsteilung. Die Gliederung gibt die Form vor, die Kriterien beschreiben die Qualität, geprüft wird unabhängig. Die innere Schleife prüft den Text gegen die Kriterien, das können Agenten. Die äußere prüft, ob die Kriterien selbst taugen, das macht der Mensch.",
+    v: { type: "loops" } },
+  { short: "Neue Regeln", kicker: "Die Regeln werden geschärft", title: "Damit der Loop fertig werden kann",
+    body: "Zwei Probleme waren zu lösen: das wandernde Ziel und die erfundenen Zahlen. Daraus wurde eine zweite Fassung der Kriterien und ein eigener Skill, /prd-goal.",
+    v: { type: "list", items: [
+      "<b>Annahmen</b> sind erlaubt, aber nummeriert, begründet und gesammelt an einer Stelle",
+      "<b>Geldbeträge</b> setzt nie die KI, sondern der Mensch",
+      "<b>Offene Fragen</b> sind okay, solange sie den Bau nicht blockieren",
+      "<b>Kritik</b> wird gesammelt, nicht jede Runde neu erfunden",
+      "<b>Ab Runde 2</b> haken die Prüfer ihre Liste ab, statt neu zu suchen" ] } },
+  { short: "Stoppschild", kicker: "Was /goal leistet", title: "/goal ist ein Stoppschild, kein Prüfer",
+    body: "/goal beantwortet nur eine Frage: nochmal oder fertig? Die Arbeit macht der eigene Loop aus Autor, Skript und Prüfern. Wer Dokumente regelmäßig so erstellen will, baut diesen Loop als festen Ablauf. /goal kann ihn höchstens von außen bewachen.",
+    v: { type: "big", lines: [["/goal", "= Stoppschild", "r"], ["Der Loop", "= die Arbeit", "b"]] } },
+  { short: "These", kicker: "Die neue These", title: "Looping geht auch für Wissensarbeit",
+    body: "Die alte Annahme lautete: Looping braucht ein objektives Richtig, wie einen Test. Wissensarbeit hat das zum Teil. Was mechanisch ist, prüft ein Skript. Was Urteil ist, prüft eine klar beschriebene Rolle. Ob die Kriterien stimmen, entscheidet der Mensch.",
+    v: { type: "tiers" } },
+  { short: "D · Runde 1", kicker: "Variante D · Runde 1", title: "Frei entwerfen, dann neu schreiben",
+    body: "Erst ein Entwurf ohne Kriterien, damit der Lösungsraum offen bleibt. Dann schreibt ein neuer Autor mit den geschärften Kriterien neu, statt zu flicken. Ergebnis: 10 von 14. Alle Lücken kommen als 17 nummerierte Punkte auf eine Liste.",
+    v: { type: "scores", rows: { A: [4], B: [11], C: [11], D: [10] } } },
+  { short: "D · Runde 2", kicker: "Variante D · Runde 2", title: "14 von 14",
+    body: "Die Prüfer haken nur noch die Liste ab. Alle Punkte sind erledigt, niemand findet einen neuen Hinderungsgrund, und der Geschäftsführer urteilt: klar und überzeugend. Ohne eine einzige erfundene Zahl, und der Text wird nur 5 % länger.",
+    note: "Vorsicht beim Verallgemeinern: Die geschärften Kriterien sind leichter zu erreichen als die ersten, und es war ein einziger Durchlauf an einem Thema.",
+    v: { type: "scores", rows: { A: [4], B: [11], C: [11], D: [14, 10] } } },
+  { short: "Gegenprobe", kicker: "Die Gegenprobe", title: "Ohne Loop: 3 von 14",
+    body: "Zum Schluss der alte Skill, ein einziger Durchgang, ohne /goal und ohne Prüfer. Gleiche Interviews, gleiches Produkt. Der PRD liest sich flüssig und ist halb so lang. Aber er enthält vier Zitate, die in keinem Interview stehen, ein erfundenes Beispiel und keine Zahl, auf die man entscheiden könnte.",
+    note: "Selbst wenn man nur zählt, was jeder gute PRD leisten muss (wahr sein, entscheidbar sein), steht es 0 von 5 gegen 5 von 5. Der Loop ändert nicht, was gebaut wird, sondern ob man dem Dokument glauben kann.",
+    v: { type: "scores", rows: { O: [3], D: [14] } } },
+  { short: "Prinzipien", kicker: "Was bleibt", title: "Sieben Prinzipien",
+    body: "Looping funktioniert für Wissensarbeit, wenn man aufschreibt, woran man Qualität erkennt, das Prüfen anderen überlässt und die Kriterien selbst regelmäßig überprüft.",
+    v: { type: "list", items: [
+      "<b>Form und Qualität trennen:</b> Gliederung für die Form, Kriterien für die Qualität",
+      "<b>Kriterien zeigen,</b> aber nie selbst prüfen lassen",
+      "<b>Passender Prüfer:</b> Skript, wo es geht, sonst eine Rolle mit begrenzter Sicht",
+      "<b>Erst suchen, dann abhaken,</b> damit das Ziel stillsteht",
+      "<b>Gegen Goodhart</b> absichern: Annahmen offen kennzeichnen",
+      "<b>Neu schreiben</b> statt flicken",
+      "<b>Die äußere Schleife</b> gehört dem Menschen" ] } },
+  { short: "Fazit", kicker: "Fazit", title: "Glaubwürdiger, nicht klüger",
+    body: "Looping macht Wissensarbeit mit Agenten vor allem wahrer und entscheidbarer: keine erfundenen Zitate, keine Zahlen ohne Herkunft, Antworten auf die Fragen der Leser. Die Richtung ändert es nicht, alle Varianten wählen dasselbe Produkt. Es funktioniert, wenn die Kriterien Qualität statt Form messen, die Prüfer unabhängig sind und die Quellen sehen, das Ziel stillsteht und jedes Kriterium ehrlich erfüllbar ist.",
+    note: "Die wichtigste Regel aus dem Goodhart-Fund: Verlangt ein Kriterium etwas, das die Fakten nicht hergeben, erfindet der Agent es, ganz ohne Bonus oder Ehrgeiz. Die Kernfrage für jedes Kriterium und jede Kennzahl lautet deshalb: Kann man das ehrlich erfüllen, und was passiert, wenn nicht?",
+    v: { type: "big", lines: [["Ein Loop", "ist so gut wie sein Prüfer", "b"], ["Jedes Ziel", "braucht einen ehrlichen Weg", "r"]] } },
+  { short: "Für dich", kicker: "Und was heißt das für dich?", title: "Es klingt abstrakt: warum es für dich wichtig ist",
+    body: "Engineering loopt längst: Linter, Typen, Tests. Wir dachten, Produktarbeit kann das nicht, weil es keinen Compiler für einen PRD gibt. Die Folge: Die Fabrik prüft alles, nur nicht unsere Produktkriterien. Ein Loop sorgt dafür, dass unsere eigenen Ergebnisse unsere Qualität halten und dass diese Qualität in die Umsetzung weitergetragen wird. Was wir in der Produktphase nicht als prüfbares Kriterium festlegen, kann Engineering nicht einhalten, ein Coding-Agent erst recht nicht. Wir setzen den Standard. Der Loop ist das Werkzeug, ihn zu halten, keine Garantie.",
+    note: "Du loopst schon, nur mit schwachem Prüfer: deinem Bauchgefühl um 18 Uhr. Der erste Entwurf wirkt fertig, ist es aber nicht (3 und 4 von 14 Punkten). Es lohnt sich bei Dokumenten, nach denen andere handeln (PRD, Business Case, Angebot), bei allem, was du immer wieder schreibst, und immer, wenn du an KI delegierst. Weniger bei Exploration: Dort engen Kriterien zu früh ein.",
+    v: { type: "list", items: [
+      "<b>Woran würde ein Prüfer erkennen,</b> dass das hier gut ist?",
+      "<b>Wer prüft, und was sieht er?</b> Wer nur den Chat sieht, muss dem Autor glauben",
+      "<b>Ist jedes Ziel ehrlich erfüllbar?</b> Sonst wird geschummelt, von Menschen wie von Agenten",
+      "<b>Deine Rolle verschiebt sich:</b> vom Schreiben zum Festlegen, was gut heißt" ] } }
+];
+
+const LABELS = { A: "bisherige Vorlage", B: "nur Gliederung, lernt aus Kritik", C: "Gliederung + Kriterien", D: "frei entwerfen, dann neu schreiben", O: "alter Skill, ohne Loop" };
+const DUR = 10000;
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let cur = 0, playing = !reduce, t0 = 0, elapsed = 0, raf = 0, rigTimer = 0;
+
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+
+function visual(v) {
+  if (v.type === "pipe") {
+    return `<span class="vlabel">${v.sig ? "Skills" : "Standard-Flow"}</span><div class="pipe">` + v.items.map((x, i) =>
+      (i ? `<span class="arrow" style="animation-delay:${i * .18 + .05}s">→</span>` : "") +
+      `<span class="chip${v.sig ? " sig" : ""}" style="animation-delay:${i * .18}s">${esc(x)}${v.tag ? `<span class="tag">${v.tag}</span>` : ""}</span>`).join("") + `</div>`;
+  }
+  if (v.type === "q") {
+    return `<span class="vlabel">Umbau</span><div class="q"><div class="from">Vorlage</div><div class="mid">ausfüllen → prüfen, ob alles da ist</div><div class="to">Gütekriterien</div><div class="mid" style="animation-delay:1.7s;color:var(--blau)">aufschreiben, woran man gut erkennt → prüfen, ob es stimmt</div></div>`;
+  }
+  if (v.type === "goal") {
+    const sees = [["Gespräch", "yes"], ["Dateien", "no"], ["Quellen", "no"], ["Werkzeuge", "no"]];
+    return `<span class="vlabel">So arbeitet /goal</span><div class="goal">
+      <div class="box"><h4>Agent</h4><small>arbeitet, schreibt Dateien</small></div>
+      <div class="ping" aria-hidden="true"><span>Schritt →</span><span>← nochmal</span></div>
+      <div class="box"><h4>Prüfer</h4><small>kleines Modell, nach jedem Schritt</small>
+        <ul class="sees">${sees.map((s, i) => `<li class="${s[1]}" style="animation-delay:${.4 + i * .25}s">${s[0]}</li>`).join("")}</ul></div></div>`;
+  }
+  if (v.type === "rig") {
+    const roles = v.roles || ["Autor", "Skript", "Faktenprüfer", "Laie", "Entwickler", "Kunde", "Chef", "Koordinator"];
+    return `<span class="vlabel">${v.label || "Eigener Loop · wer was tut"}</span><div class="rig"><div class="ring"></div>` + roles.map((r, i) => {
+      const a = -Math.PI / 2 + i * 2 * Math.PI / roles.length;
+      return `<span class="node" data-i="${i}" style="left:${50 + 38 * Math.cos(a)}%;top:${50 + 38 * Math.sin(a)}%">${r}</span>`;
+    }).join("") + `<div class="center"><div>${v.center || "14<br>Kriterien"}<small>${v.sub || "Anzeigetafel"}</small></div></div></div>`;
+  }
+  if (v.type === "scores") {
+    const keys = v.rows.O ? ["O", "D"] : ["A", "B", "C", "D"];
+    return `<span class="vlabel">Anzeigetafel · ein Kästchen = ein erfülltes Kriterium, 14 sind möglich</span><div class="scores">` + keys.map(k => {
+      const r = v.rows[k];
+      if (!r) return `<div class="row dim"><span class="k">${k}</span><div class="segs">${'<span class="seg"></span>'.repeat(14)}</div><span class="num">—</span><span class="lab">${LABELS[k]}</span></div>`;
+      const [n, prev] = r;
+      const d = prev !== undefined ? `<span class="d">+${n - prev} nach Nachbessern</span>` : "";
+      return `<div class="row"><span class="k">${k}</span><div class="segs" data-n="${n}" data-p="${prev ?? n}">${'<span class="seg"></span>'.repeat(14)}</div><span class="num"><b>${n}</b>/14${d}</span><span class="lab">${LABELS[k]}</span></div>`;
+    }).join("") + `</div>`;
+  }
+  if (v.type === "goodhart") {
+    return `<span class="vlabel">Variante C · Kriterium C14</span><div class="gh">
+      <div class="col"><div class="track"><div class="fill up" id="ghUp"></div></div><div class="t">laut Prüfer</div></div>
+      <div class="col"><div class="track"><div class="fill down" id="ghDown"></div></div><div class="t">in Wahrheit</div></div>
+      <div class="gh-cap">„8–12 Personenwochen“: als Schätzung markiert, aber aus keiner Quelle</div></div>`;
+  }
+  if (v.type === "loops") {
+    return `<span class="vlabel">Zwei Schleifen</span><div class="loops">
+      <div class="lp outer"><b>Äußere Schleife</b><span>Mensch · taugen die Kriterien?</span></div>
+      <div class="lp inner"><b>Innere Schleife</b><span>Agenten · erfüllt der Text die Kriterien?</span></div></div>`;
+  }
+  if (v.type === "list") {
+    return `<ol class="list${v.plain ? " plain" : ""}">` + v.items.map((x, i) => `<li style="animation-delay:${i * .22}s"><span>${x}</span></li>`).join("") + `</ol>`;
+  }
+  if (v.type === "big") {
+    return `<div class="big">` + v.lines.map((l, i) => `<span style="animation-delay:${i * .6}s">${l[0]} <span class="${l[2]}" style="opacity:1;animation:none">${l[1]}</span></span>`).join("") + `</div>`;
+  }
+  if (v.type === "tiers") {
+    const t = [["Mechanisch", "Zitate wörtlich, Zahlen belegt, Gerüst vollständig", "Skript · wie ein Linter"],
+               ["Urteil", "Versteht ein Laie das Problem? Kann ein Entwickler testen?", "Rollen-Prüfer · Test mit Rauschen"],
+               ["Gültigkeit", "Messen die Kriterien, was „gut“ heißt?", "Mensch · äußere Schleife"]];
+    return `<span class="vlabel">Drei Arten von Qualität</span><div class="tiers">` + t.map((x, i) =>
+      `<div class="tier" style="animation-delay:${i * .3}s"><h5>${x[0]}</h5><p>${x[1]}<small>${x[2]}</small></p></div>`).join("") + `</div>`;
+  }
+  return "";
+}
+
+function animateVisual(v) {
+  clearInterval(rigTimer);
+  if (v.type === "scores") {
+    document.querySelectorAll(".segs[data-n]").forEach(el => {
+      const n = +el.dataset.n, p = +el.dataset.p;
+      [...el.children].forEach((s, i) => {
+        if (i < n) setTimeout(() => { s.classList.add("f"); if (i >= p) s.classList.add("hi"); }, reduce ? 0 : 200 + i * 55);
+      });
+    });
+  }
+  if (v.type === "goodhart") {
+    requestAnimationFrame(() => requestAnimationFrame(() => { $("ghUp").style.height = "88%"; $("ghDown").style.height = "22%"; }));
+  }
+  if (v.type === "rig") {
+    const nodes = document.querySelectorAll(".node");
+    let k = 0;
+    const step = () => { nodes.forEach(n => n.classList.remove("on")); nodes[k % nodes.length].classList.add("on"); k++; };
+    step();
+    if (!reduce) rigTimer = setInterval(step, 700);
+  }
+}
+
+function render() {
+  const s = STEPS[cur];
+  $("text").innerHTML = `<div class="kicker fade"><span class="n">${String(cur + 1).padStart(2, "0")} / ${STEPS.length}</span><span>${esc(s.kicker)}</span></div>
+    <h2 class="fade" style="animation-delay:.08s">${esc(s.title)}</h2>
+    <p class="fade" style="animation-delay:.16s">${esc(s.body)}</p>${s.note ? `<p class="note fade" style="animation-delay:.24s">${esc(s.note)}</p>` : ""}`;
+  $("visual").innerHTML = visual(s.v);
+  animateVisual(s.v);
+  document.querySelectorAll(".tick").forEach((t, i) => {
+    t.classList.toggle("cur", i === cur); t.classList.toggle("done", i < cur);
+    t.setAttribute("aria-current", i === cur ? "step" : "false");
+  });
+  $("count").textContent = `Schritt ${cur + 1} von ${STEPS.length}`;
+  elapsed = 0; t0 = performance.now();
+}
+
+function go(i) { cur = (i + STEPS.length) % STEPS.length; render(); }
+
+function loop(now) {
+  if (playing) {
+    const e = elapsed + (now - t0), dur = DUR + (STEPS[cur].note ? 7000 : 0);
+    $("bar").style.width = Math.min(100, e / dur * 100) + "%";
+    if (e >= dur) {
+      if (cur === STEPS.length - 1) { setPlaying(false); $("bar").style.width = "100%"; }
+      else go(cur + 1);
+    }
+  }
+  raf = requestAnimationFrame(loop);
+}
+
+function setPlaying(p) {
+  if (p && !playing) { t0 = performance.now(); if (cur === STEPS.length - 1 && elapsed === 0) {} }
+  if (!p && playing) elapsed += performance.now() - t0;
+  playing = p;
+  $("play").textContent = p ? "Pause" : "Abspielen";
+}
+
+$("rail").style.setProperty("--n", STEPS.length);
+$("rail").innerHTML = STEPS.map((s, i) => `<button class="tick" type="button" data-i="${i}"><span class="tn">${String(i + 1).padStart(2, "0")}</span><span class="tl">${esc(s.short)}</span></button>`).join("");
+$("rail").addEventListener("click", e => { const b = e.target.closest(".tick"); if (b) { go(+b.dataset.i); } });
+$("prev").onclick = () => go(cur - 1);
+$("next").onclick = () => go(cur + 1);
+$("play").onclick = () => {
+  if (!playing && cur === STEPS.length - 1) { go(0); setPlaying(true); return; }
+  setPlaying(!playing);
+};
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") go(cur + 1);
+  else if (e.key === "ArrowLeft") go(cur - 1);
+  else if (e.key === " " && e.target === document.body) { e.preventDefault(); $("play").click(); }
+});
+
+$("play").textContent = playing ? "Pause" : "Abspielen";
+render();
+raf = requestAnimationFrame(loop);
+</script>
